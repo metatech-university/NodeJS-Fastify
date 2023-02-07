@@ -1,6 +1,6 @@
 'use strict';
 
-function init(routes, server) {
+function init(server, routes) {
   /* TODO: session support */
   for (const [iface, methods] of Object.entries(routes)) {
     for (const [method, handler] of Object.entries(methods)) {
