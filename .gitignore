@@ -1,0 +1,6 @@
+node_modules
+*.log
+*.done
+*.pem
+.DS_Store
+data/
