@@ -1,5 +1,9 @@
 'use strict';
 
+const path = require('node:path');
+
+const fastigyStatic = require('@fastify/static');
+
 function init(server, routes) {
   /* TODO: session support */
   for (const [iface, methods] of Object.entries(routes)) {
@@ -21,6 +25,15 @@ function init(server, routes) {
   }
 }
 
+function initStatic(server, appPath) {
+  const staticPath = path.join(appPath, 'static');
+
+  server.register(fastigyStatic, {
+    root: staticPath,
+    wildcard: true,
+  });
+}
+
 async function start(server, config) {
   await server.listen(config);
   server.log.info(`API on port ${config.port}`);
@@ -28,5 +41,6 @@ async function start(server, config) {
 
 module.exports = {
   init,
+  initStatic,
   start,
 };

@@ -18,7 +18,7 @@ const APPLICATION_PATH = path.join(process.cwd(), '../NodeJS-Application');
   const app = await loadApplication(APPLICATION_PATH, logger);
 
   http.init(server, app.api);
-  /* HTTP STATIC */
+  http.initStatic(server, APPLICATION_PATH);
   ws.init(server, app.api);
   http.start(server, { port: app.config.server.ports[0] });
 })();
