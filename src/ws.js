@@ -18,14 +18,10 @@ function init(routes, fastify) {
             if (!handler)
               return connection.send('"Not found"', { binary: false });
 
-            const json = JSON.stringify(args);
-            const parameters = json.substring(1, json.length - 1);
-            console.log(`${ip} ${name}.${method}(${parameters})`);
-
             const result = await handler(...args);
             connection.send(JSON.stringify(result), { binary: false });
           } catch (err) {
-            console.error(err);
+            fastify.log.error(err);
             connection.send('"Server error"', { binary: false });
           }
         });
