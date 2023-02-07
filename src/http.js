@@ -1,18 +1,14 @@
 'use strict';
 
-const fastify = require('fastify');
-
-function init(routes, fastifyConfig) {
-  const server = fastify(fastifyConfig);
-
+function init(routes, server) {
   /* TODO: session support */
-  for (const [iface, methods] of Object.entries(routes.api)) {
+  for (const [iface, methods] of Object.entries(routes)) {
     for (const [method, handler] of Object.entries(methods)) {
       if (typeof handler !== 'function') {
         continue;
       }
 
-      server.post(`api/${iface}/${method}`, async (request) => {
+      server.post(`/api/${iface}/${method}`, async (request) => {
         const response = await handler({
           ...request.query,
           ...request.body,
@@ -23,8 +19,6 @@ function init(routes, fastifyConfig) {
       });
     }
   }
-
-  return server;
 }
 
 async function start(server, config) {
