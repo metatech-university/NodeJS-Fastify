@@ -1,6 +1,7 @@
 'use strict';
 
 const fastify = require('fastify');
+const pinoLogger = require('pino');
 
 const path = require('node:path');
 
@@ -10,9 +11,21 @@ const ws = require('./src/system/ws');
 
 const { loadApplication } = require('./src/system/loader.js');
 const APPLICATION_PATH = path.join(process.cwd(), '../NodeJS-Application');
+const LOG_FOLDER_PATH = './log';
+const date = new Date().toISOString().substring(0, 10);
+const filePath = path.join(LOG_FOLDER_PATH, `${date}.log`);
+
+const streams = [
+  { stream: process.stdout },
+  { stream: pinoLogger.destination(filePath) }
+];
+const multiLogger = pinoLogger(
+  { level: 'info' },
+  pinoLogger.multistream(streams)
+);
 
 (async () => {
-  const server = fastify({ logger: true });
+  const server = fastify({ logger: multiLogger });
   const logger = new Logger(server.log);
 
   const app = await loadApplication(APPLICATION_PATH, logger);
