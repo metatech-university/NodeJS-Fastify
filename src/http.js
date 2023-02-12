@@ -30,10 +30,10 @@ function initStatic(server, appPath) {
   });
 }
 
-async function start(server, config) {
+const start = async (server, config) => {
   await server.listen(config);
   server.log.info(`API on port ${config.port}`);
-}
+};
 
 module.exports = {
   init,
