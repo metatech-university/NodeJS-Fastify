@@ -12,16 +12,16 @@ const OPTIONS = {
   displayErrors: false,
 };
 
-async function load(filePath, sandbox) {
+const load = async (filePath, sandbox) => {
   const src = await fsp.readFile(filePath, 'utf8');
   const code = `'use strict';\n${src}`;
   const script = new vm.Script(code);
   const context = vm.createContext(Object.freeze({ ...sandbox }));
   const exported = script.runInContext(context, OPTIONS);
   return exported;
-}
+};
 
-async function loadDir(dir, sandbox) {
+const loadDir = async (dir, sandbox) => {
   const files = await fsp.readdir(dir);
   const container = {};
   for (const fileName of files) {
@@ -31,9 +31,9 @@ async function loadDir(dir, sandbox) {
     container[name] = await load(filePath, sandbox);
   }
   return container;
-}
+};
 
-async function loadApplication(appPath, logger) {
+const loadApplication = async (appPath, logger) => {
   const sandbox = {
     console: Object.freeze(logger),
     common: Object.freeze(common),
@@ -52,7 +52,7 @@ async function loadApplication(appPath, logger) {
   sandbox.api = Object.freeze(api);
 
   return sandbox;
-}
+};
 
 module.exports = {
   load,
