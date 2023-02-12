@@ -5,11 +5,11 @@ const pinoLogger = require('pino');
 
 const path = require('node:path');
 
-const { Logger } = require('./src/system/logger.js');
-const http = require('./src/system/http');
-const ws = require('./src/system/ws');
+const { Logger } = require('./src/logger.js');
+const http = require('./src/http.js');
+const ws = require('./src/ws.js');
 
-const { loadApplication } = require('./src/system/loader.js');
+const { loadApplication } = require('./src/loader.js');
 const APPLICATION_PATH = path.join(process.cwd(), '../NodeJS-Application');
 const LOG_FOLDER_PATH = './log';
 const date = new Date().toISOString().substring(0, 10);
