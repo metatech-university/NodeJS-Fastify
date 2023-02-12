@@ -4,8 +4,8 @@ const fsp = require('node:fs').promises;
 const vm = require('node:vm');
 const path = require('node:path');
 
-const dbBuilder = require('../db');
-const common = require('../common.js');
+const dbBuilder = require('../lib/db.js');
+const common = require('../lib/common.js');
 
 const OPTIONS = {
   timeout: 5000,

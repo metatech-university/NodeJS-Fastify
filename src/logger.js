@@ -17,12 +17,12 @@ class Logger {
     this.logger.info(msg);
   }
 
-  debug(...args) {
+  debug(data, ...args) {
     const msg = args.length <= 1 ? args[0] : args;
     this.logger.debug(data, msg);
   }
 
-  error(...args) {
+  error(data, ...args) {
     const msg = args.length <= 1 ? args[0] : args;
     this.logger.error(data, msg);
   }
