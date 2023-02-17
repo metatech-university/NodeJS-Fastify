@@ -1,6 +1,8 @@
 'use strict';
 
 const { util } = require('node:util');
+const fs = require('node:fs');
+const path = require('node:path');
 
 class Logger {
   constructor(logger) {
@@ -39,9 +41,10 @@ class Logger {
 }
 
 class StreamForLogger {
-  constructor(logFileStream, date) {
-    this.logFileStream = logFileStream;
-    this.date = date;
+  constructor(folderPath) {
+    this.date = new Date().toISOString().substring(0, 10); 
+    const filePath = path.join(folderPath, `${this.date}.log`);
+    this.logFileStream = fs.createWriteStream(filePath, { flags: 'a' });
   }
   write(msg) {
     process.stdout.write(msg);

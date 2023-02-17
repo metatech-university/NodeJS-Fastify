@@ -3,7 +3,6 @@
 const fastify = require('fastify');
 
 const path = require('node:path');
-const fs = require('node:fs');
 
 const { Logger, StreamForLogger } = require('./src/logger.js');
 const http = require('./src/http.js');
@@ -12,11 +11,7 @@ const { loadApplication } = require('./src/loader.js');
 
 const APPLICATION_PATH = path.join(process.cwd(), '../NodeJS-Application');
 const LOG_FOLDER_PATH = './log';
-
-const date = new Date().toISOString().substring(0, 10);
-const LOG_FILE = path.join(LOG_FOLDER_PATH, `${date}.log`);
-const logFileStream = fs.createWriteStream(LOG_FILE, { flags: 'a' });
-const streamForLogger = new StreamForLogger(logFileStream, date);
+const streamForLogger = new StreamForLogger(LOG_FOLDER_PATH);
 
 (async () => {
   const server = fastify({ logger: { level: 'info', stream: streamForLogger } });
