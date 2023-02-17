@@ -21,15 +21,13 @@ const streamForLogger = {
   write(msg) {
     process.stdout.write(msg);
     const currentDate = new Date().toISOString().substring(0, 10);
-    if (currentDate === this.date) {
-      this.logFileStream.write(msg);
-    } else {
+    if (currentDate !== this.date) {
       this.date = currentDate;
       this.logFileStream.end();
       const filePath = path.join(LOG_FOLDER_PATH, `${this.date}.log`);
       this.logFileStream = fs.createWriteStream(filePath, { flags: 'a' });
-      this.logFileStream.write(msg);
     }
+    this.logFileStream.write(msg);
   },
   logFileStream,
   date,
