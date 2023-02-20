@@ -41,25 +41,30 @@ class Logger {
 }
 
 class StreamForLogger {
+  #logFileStream;
+  folderPath;
+  date;
+
   constructor(folderPath) {
     this.folderPath = folderPath;
     this.date = new Date().toISOString().substring(0, 10); 
-    this.#createFileStream();
+    this.#logFileStream = this.#createFileStream();
   }
+
   write(msg) {
     process.stdout.write(msg);
     const currentDate = new Date().toISOString().substring(0, 10);
     if (currentDate !== this.date) {
       this.date = currentDate;
-      this.logFileStream.end();
-      this.#createFileStream();
+      this.#logFileStream = this.#createFileStream();
     }
-    this.logFileStream.write(msg);
+    this.#logFileStream.write(msg);
   }
 
   #createFileStream() {
+    if (this.#logFileStream) this.#logFileStream.end();
     const filePath = path.join(this.folderPath, `${this.date}.log`);
-    this.logFileStream = fs.createWriteStream(filePath, { flags: 'a' });
+    return fs.createWriteStream(filePath, { flags: 'a' });
   }
 };
 

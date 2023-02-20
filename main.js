@@ -11,9 +11,9 @@ const { loadApplication } = require('./src/loader.js');
 
 const APPLICATION_PATH = path.join(process.cwd(), '../NodeJS-Application');
 const LOG_FOLDER_PATH = './log';
-const streamForLogger = new StreamForLogger(LOG_FOLDER_PATH);
 
 (async () => {
+  const streamForLogger = new StreamForLogger(LOG_FOLDER_PATH);
   const server = fastify({ logger: { level: 'info', stream: streamForLogger } });
   const logger = new Logger(server.log);
   const app = await loadApplication(APPLICATION_PATH, logger);
