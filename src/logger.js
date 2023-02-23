@@ -48,7 +48,7 @@ class StreamForLogger {
   constructor(folderPath) {
     this.folderPath = folderPath;
     this.date = new Date().toISOString().substring(0, 10); 
-    this.#logFileStream = this.#createFileStream();
+    this.#createFileStream();
   }
 
   write(msg) {
