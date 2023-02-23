@@ -66,7 +66,8 @@ class StreamForLogger {
       this.#logFileStream.end();
     }
     const filePath = path.join(this.folderPath, `${this.date}.log`);
-    return fs.createWriteStream(filePath, { flags: 'a' });
+    this.#logFileStream = fs.createWriteStream(filePath, { flags: 'a' });
+    return this.#logFileStream;
   }
 };
 
