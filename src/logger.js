@@ -56,7 +56,7 @@ class StreamForLogger {
     const currentDate = new Date().toISOString().substring(0, 10);
     if (currentDate !== this.date) {
       this.date = currentDate;
-      this.#logFileStream = this.#createFileStream();
+      this.#createFileStream();
     }
     this.#logFileStream.write(msg);
   }
