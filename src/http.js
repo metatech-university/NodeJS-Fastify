@@ -2,7 +2,7 @@
 
 const path = require('node:path');
 
-const fastigyStatic = require('@fastify/static');
+const fastifyStatic = require('@fastify/static');
 
 function init(server, routes) {
   /* TODO: session support */
@@ -24,7 +24,7 @@ function init(server, routes) {
 function initStatic(server, appPath) {
   const staticPath = path.join(appPath, 'static');
 
-  server.register(fastigyStatic, {
+  server.register(fastifyStatic, {
     root: staticPath,
     wildcard: true,
   });
