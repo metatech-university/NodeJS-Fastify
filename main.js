@@ -1,7 +1,6 @@
 'use strict';
 
-const { resolve } = require('node:path');
-const { readFile } = require('node:fs/promises');
+const fsp = require('node:fs/promises');
 
 const fastify = require('fastify');
 
@@ -10,25 +9,21 @@ const http = require('./src/http.js');
 const ws = require('./src/ws.js');
 const { loadApplication } = require('./src/loader.js');
 
-const APPLICATIONS_FILE_PATH = '.applications';
 const LOG_FOLDER_PATH = './log';
 
-const getAppPaths = async (appFilePath) => {
-  const appsFile = await readFile(resolve(appFilePath), {
-    encoding: 'utf8',
-  });
-
-  return appsFile.split('\n').filter((path) => path.trim() !== '');
+const getAppPaths = async () => {
+  const apps = await fsp.readFile('.applications', 'utf8');
+  return apps.split(/[\r\n\s]+/).filter((s) => s.length !== 0);
 };
 
 (async () => {
-  const streamForLogger = new StreamForLogger(LOG_FOLDER_PATH);
+  const stream = new StreamForLogger(LOG_FOLDER_PATH);
   const server = fastify({
-    logger: { level: 'info', stream: streamForLogger },
+    logger: { level: 'info', stream },
   });
   const logger = new Logger(server.log);
 
-  const appPath = (await getAppPaths(APPLICATIONS_FILE_PATH))[0];
+  const appPath = (await getAppPaths())[0];
   const app = await loadApplication(appPath, logger);
 
   http.init(server, app.api);
