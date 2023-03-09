@@ -14,7 +14,9 @@ const LOG_FOLDER_PATH = './log';
 
 (async () => {
   const streamForLogger = new StreamForLogger(LOG_FOLDER_PATH);
-  const server = fastify({ logger: { level: 'info', stream: streamForLogger } });
+  const server = fastify({
+    logger: { level: 'info', stream: streamForLogger },
+  });
   const logger = new Logger(server.log);
   const app = await loadApplication(APPLICATION_PATH, logger);
 
