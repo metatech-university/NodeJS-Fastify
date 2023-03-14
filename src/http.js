@@ -14,7 +14,7 @@ function init(server, routes) {
 
       server.post(`/api/${iface}/${method}`, async (request) => {
         const { query, body, headers } = request;
-        const response = await handler({ ...query, ...body, headers });
+        const response = await handler({ query, body, headers });
         return response;
       });
     }
