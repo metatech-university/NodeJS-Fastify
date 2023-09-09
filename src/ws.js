@@ -15,7 +15,7 @@ function init(server, routes) {
             const handler = routes?.[name]?.[method];
 
             if (!handler)
-              return connection.send('"Not found"', { binary: false });
+              return connection.socet.send('"Not found"', { binary: false });
 
             const result = await handler(...args);
             connection.send(JSON.stringify(result), { binary: false });
